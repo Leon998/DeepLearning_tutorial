@@ -22,7 +22,6 @@ class MLP(nn.Module):
         output = self.out(X)
         return output
 
-
 net = MLP()
 print(net(X))
 
@@ -69,10 +68,8 @@ class FixedHiddenMLP(nn.Module):
             X /= 2
         return X
 
-
 net = FixedHiddenMLP()
 print(net(X))
-
 
 # 搭配组合块
 class NestMLP(nn.Module):
@@ -84,7 +81,6 @@ class NestMLP(nn.Module):
 
     def forward(self, X):
         return self.linear(self.net(X))
-
 
 chimera = nn.Sequential(NestMLP(), nn.Linear(16, 20), FixedHiddenMLP())
 print(chimera(X))
