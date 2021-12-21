@@ -5,7 +5,6 @@ from torch import nn
 net = nn.Sequential(nn.Linear(4, 8), nn.ReLU(), nn.Linear(8, 1))
 X = torch.rand(size=(2, 4))
 
-
 # print('The output tensor: ',net(X))
 # # 访问目标参数
 # print('The second linear parameters: ',net[2].state_dict())
@@ -22,7 +21,6 @@ def block1():
     return nn.Sequential(nn.Linear(4, 8), nn.ReLU(),
                          nn.Linear(8, 4), nn.ReLU())
 
-
 def block2():
     net = nn.Sequential()
     for i in range(4):
@@ -32,8 +30,6 @@ def block2():
 
 
 rgnet = nn.Sequential(block2(), nn.Linear(4, 1))
-
-
 # print(rgnet)
 # 因为层是分层嵌套的，所以我们也可以像通过嵌套列表索引一样访问它们。
 # 下面，我们访问第一个主要的块中、第二个子块的第一层的偏置项。
@@ -55,13 +51,11 @@ net.apply(init_normal)
 var = net[0].weight.data, net[0].bias.data
 print(var)
 
-
 # 还可以对某些块应用不同的初始化方法。
 # 例如，下面我们使用Xavier初始化方法初始化第一个神经网络层， 然后将第三个神经网络层初始化为常量值42。
 def xavier(m):
     if type(m) == nn.Linear:
         nn.init.xavier_uniform_(m.weight)
-
 
 def init_42(m):
     if type(m) == nn.Linear:
@@ -72,3 +66,15 @@ net[0].apply(xavier)
 net[2].apply(init_42)
 print(net[0].weight.data[0])
 print(net[2].weight.data)
+
+# 自定义初始化
+def my_init(m):
+    if type(m) == nn.Linear:
+        print("Init", *[(name, param.shape)
+                        for name, param in m.named_parameters()][0])
+        nn.init.uniform_(m.weight, -10, 10)
+        m.weight.data *= m.weight.data.abs() >= 5
+
+net.apply(my_init)
+var = net[0].weight[:2]
+print(var)
