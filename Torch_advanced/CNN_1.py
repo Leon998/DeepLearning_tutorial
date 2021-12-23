@@ -34,7 +34,7 @@ test_y = test_data.test_labels[:2000]
 # print(test_y.shape)  # torch.Size([2000])
 
 
-# CNN 模型
+# Section6 模型
 class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
