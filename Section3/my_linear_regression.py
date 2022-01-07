@@ -18,14 +18,15 @@ def load_array(data_arrays, batch_size, is_train=True):  # @save
 # 产生数据集
 true_w = torch.tensor([2, -3.4])
 true_b = 4.2
-features, labels = d2l.synthetic_data(true_w, true_b, 100)
+features, labels = d2l.synthetic_data(true_w, true_b, 80)
 # 产生小批量
-batch_size = 10
+batch_size = 8
 data_iter = load_array((features, labels), batch_size)
 # 测试小批量
 X, y = next(iter(data_iter))
-# print(type((X, y)))  # 可以看到，DataLoader后返回的数据类型是元组
-# print(X, '\n', y)
+print("Test of a small batch:")
+print(type((X, y)))  # 可以看到，DataLoader后返回的数据类型是元组
+print(X, '\n', y)
 
 
 # =========================定义模型=============================== #

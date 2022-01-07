@@ -1,4 +1,4 @@
-import torch
+import torch预测
 import torch.utils.data as Data
 
 torch.manual_seed(1)  # reproducible
