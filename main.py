@@ -1,21 +1,41 @@
+# class MyNumbers:
+#     def __iter__(self):
+#         self.a = 1
+#         return self
+#
+#     def __next__(self):
+#         x = self.a
+#         self.a += 2
+#         return x
+#
+#
+# myclass = MyNumbers()
+# myiter = iter(myclass)
+# print(myiter)
+#
+# for i in range(5):
+#     l = next(myiter)
+#     print(l)
+
 import torch
-import numpy as np
-from torch.nn import functional as F
 
+a = torch.arange(1, 10).reshape(3, 3)
+b = torch.arange(11, 20).reshape(3, 3)
+c = torch.arange(21, 30).reshape(3, 3)
+print(a)
+print('Dimension_0 is like:', a[:, 0])
+print('Dimension_1 is like:', a[0, :])
 
-X = torch.arange(10)
-print(X)
-X = X.reshape((2, 5))
-print(X)
-inputs = F.one_hot(X.T, 12)
-# print(inputs)
-print(inputs.shape)
-outputs = []
-for X in inputs:
-    Y = X
-    outputs.append(Y)
+d = torch.stack((a, b, c), dim=2)
+print(d)
+print(d.shape)
+print('Dimension_0 of d is like:', d[:, 0, 0])
+print('Dimension_1 of d is like:', d[0, :, 0])
+print('Dimension_2 of d is like:', d[0, 0, :])
 
-print(outputs)
-print(torch.cat(outputs, dim=0))
-print(torch.cat(outputs, dim=0).shape)
-
+e = torch.stack((d, 2*d), dim=3)
+print(e.shape)
+print('Dimension_0 of e is like:', e[:, 0, 0, 0])
+print('Dimension_1 of e is like:', e[0, :, 0, 0])
+print('Dimension_2 of e is like:', e[0, 0, :, 0])
+print('Dimension_3 of e is like:', e[0, 0, 0, :])

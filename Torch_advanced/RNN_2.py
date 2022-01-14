@@ -1,4 +1,5 @@
 # encoding:utf-8
+# 以sin值作为输入，其对应的cos作为输出
 import torch
 import numpy as np
 import matplotlib.pyplot as plt  # 导入作图相关的包
@@ -43,15 +44,20 @@ optimizer = torch.optim.Adam(model.parameters(), lr=LR)  # 使用Adam算法来�
 h_state = None  # 初始化h_state为None
 
 for step in range(300):
-    # 人工生成输入和输出,输入x.size=[1,10,1],输出y.size=[1,10,1]
+    # 人工生成输入和输出,输入x.size=[1,10,1],输出y.size=[1,10,1], which are in form of [batch_size, time_step, feature]
     start, end = step * np.pi, (step + 1)*np.pi
 
     steps = np.linspace(start, end, TIME_STEP, dtype=np.float32)
     x_np = np.sin(steps)
     y_np = np.cos(steps)
+    if step == 1:
+        print(steps)
+        print(x_np)
 
     x = torch.from_numpy(x_np[np.newaxis, :, np.newaxis])
     y = torch.from_numpy(y_np[np.newaxis, :, np.newaxis])
+    if step == 1:
+        print('x.dtype is: ', x.dtype)
 
     # 将x通过网络,长度为10的序列通过网络得到最终隐藏层状态h_state和长度为10的输出prediction:[1,10,1]
     prediction, h_state = model(x, h_state)

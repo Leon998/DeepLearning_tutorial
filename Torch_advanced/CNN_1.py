@@ -25,7 +25,7 @@ test_data = torchvision.datasets.MNIST(root='./mnist/', train=False)
 
 # 批训练 50samples, 1 channel, 28x28 (50, 1, 28, 28)
 train_loader = Data.DataLoader(dataset=train_data, batch_size=BATCH_SIZE, shuffle=True)
-
+print(train_loader)
 # 为了节约时间, 我们测试时只测试前2000个
 test_x = torch.unsqueeze(test_data.test_data, dim=1).type(torch.FloatTensor)[:2000] / 255.  # shape from (2000, 28,
 # 28) to (2000, 1, 28, 28), value in range(0,1)
