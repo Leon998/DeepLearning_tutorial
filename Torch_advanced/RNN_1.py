@@ -1,4 +1,3 @@
-import sys
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
@@ -17,11 +16,11 @@ one_hot_lookup = [[1, 0, 0, 0, 0],  # 0
 
 y_data = [1, 0, 2, 3, 3, 4]  # ihello
 x_one_hot = [one_hot_lookup[x] for x in x_data]
-print(x_one_hot)
+# print(x_one_hot)
 inputs = Variable(torch.Tensor(x_one_hot))
 print(inputs.dtype, inputs)
 labels = Variable(torch.LongTensor(y_data))
-print(labels.dtype,labels)
+print(labels.dtype, labels)
 num_classes = 5
 input_size = 5  # one-hot size
 hidden_size = 5  # output from the RNN. 5 to directly predict one-hot
@@ -69,7 +68,6 @@ for epoch in range(100):
     optimizer.zero_grad()
     loss = 0
     hidden = model.init_hidden()
-
     for input, label in zip(inputs, labels):
         # print(input.size(), label.size())
         label = label.view(1)
@@ -83,12 +81,16 @@ for epoch in range(100):
     loss.backward()
     optimizer.step()
 
-# Prediction
+# ================================Prediction============================= #
 hidden = model.init_hidden()
-print("predicted string: ")
+output_char = []
 for input, label in zip(inputs, labels):
     # print(input.size(), label.size())
     label = label.view(1)
     hidden, output = model(hidden, input)
     val, idx = output.max(1)  # 找到output里最大的值和他的索引，这就是预测的字符，然后再把他的值和label做crossentropy
-    sys.stdout.write(idx2char[idx.data[0]])
+    output_char.append(idx2char[idx.data[0]])
+
+print("predicted string: ")
+output_str = ''.join(i for i in output_char)
+print(output_str)
